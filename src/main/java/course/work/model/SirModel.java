@@ -10,7 +10,8 @@ public class SirModel extends SDEModel {
     public SirModel() {
         super();
         p.put("b", 0.02);
-        p.put("a", 0.5);
+        p.put("a", 0.2);
+        p.put("end", 20.0);
 
         Function dx_dt = new Function(
                 "группа риска",
