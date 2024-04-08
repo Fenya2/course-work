@@ -8,8 +8,7 @@ import java.util.List;
 @FunctionalInterface
 public interface FunctionBody {
     /**
-     * Принимает точку n-мерного пространства и Список параметров - функций от
-     * n переменных. На основе их считает значение функции в этой точке
+     * Возвращает значение функции в указанной точке
      */
-    double calculate(List<Double> vars, List<Function> params);
+    public double of(List<Double> args);
 }

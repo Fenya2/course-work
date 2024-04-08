@@ -16,16 +16,34 @@ public class Function {
      */
     private final FunctionBody functionBody;
 
+    /**
+     * Нужно ли рисовать ее график
+     */
+    private boolean needPlot;
+
     public Function(String name, FunctionBody functionBody) {
         this.name = name;
         this.functionBody = functionBody;
+        needPlot = true;
     }
 
     /**
      * Возвращает значение функции от указанных переменных
      * и функциональных параметров.
      */
-    public double calculate(List<Double> vars, List<Function> params) {
-        return functionBody.calculate(vars, params);
+    public double of(List<Double> args) {
+        return functionBody.of(args);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isNeedPlot() {
+        return needPlot;
+    }
+
+    public void setNeedPlot(boolean needPlot) {
+        this.needPlot = needPlot;
     }
 }
