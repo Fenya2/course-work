@@ -1,7 +1,6 @@
 package course.work.gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -12,7 +11,7 @@ import javax.swing.JPanel;
 public class SidePane extends JPanel {
     public SidePane() {
         setLayout(new BorderLayout());
-        add(new ModelParamsPane());
+        add(new ModelParamsPane(), BorderLayout.CENTER);
         add(new JButton("plot"), BorderLayout.SOUTH);
     }
 }

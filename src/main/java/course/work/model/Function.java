@@ -39,7 +39,7 @@ public class Function {
         return name;
     }
 
-    public boolean isNeedPlot() {
+    public boolean needPlot() {
         return needPlot;
     }
 

@@ -13,11 +13,13 @@ import java.util.Map;
 public class SDEModel {
     /**
      * Параметры - числа, предоставляемые пользователю в gui.
-     * хранит в том числе dt и конечную точку.
+     * хранит в том числе dt и конечную точку("end").
      */
     protected Map<String, Double> p;
     /**
-     * Параметры системы, заданные в виде функций
+     * Функции системы (стоят справа от производных в математической записи)
+     * Первый элемент списка занят свободной переменной, то есть
+     * нумерация их начинается с 1
      */
     protected List<Function> f;
     /**
@@ -59,18 +61,21 @@ public class SDEModel {
     }
 
     /**
-     * Уведомляет слушателей об изменении состояния модели.
+     * Уведомляет слушателей о создании модели и передает данные о ней
+     * для отрисовки ее представления
      */
-    private void notifyListeners() {
-        pcs.firePropertyChange("model_update", null, getViewData());
+    private void init() {
+        // TODO написать INIT модели
+        pcs.firePropertyChange(ModelEvents.INIT.toString(), null, null);
     }
 
     /**
-     * Формирует данные дли отображения модели пользователю
+     * Уведомляет слушателей, что найдено решение системы с заданными
+     * параметрами, передает их для отрисовки
      */
-    private Object getViewData() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getViewData'");
+    private void solution() {
+        // TODO написать SOLUTION_READY модели
+        pcs.firePropertyChange(ModelEvents.SOLUTION_READY.toString(), null, null);
     }
 
     public Map<String, Double> getP() {
