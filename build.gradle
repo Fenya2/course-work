@@ -11,14 +11,16 @@ plugins {
 }
 
 repositories {
-    // Подключаем автоматическая работа с репозиторием Maven Central
     mavenLocal()
     mavenCentral()
 }
 
 application {
-    // Входная точка
-    mainClassName = 'course.work.Main'
+    mainClass.set("course.work.Main")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
