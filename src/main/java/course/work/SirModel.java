@@ -1,4 +1,7 @@
-package course.work.model;
+package course.work;
+
+import course.work.model.Function;
+import course.work.model.SDEModel;
 
 /**
  * Система дифференциальных уравнений для SIR

@@ -1,12 +1,22 @@
 package course.work.gui;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import course.work.controller.SDEController;
+import course.work.model.ModelEvents;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Панель, где размещается информация о параметрах модели
@@ -17,17 +27,58 @@ public class ParamsPanel extends JPanel implements PropertyChangeListener {
      * Панель, куда добавляются представления функций
      */
     private JPanel paramsPanel; // TODO поменять на список
+    private SDEController controller;
 
-    public ParamsPanel() {
+    public ParamsPanel(SDEController controller) {
         setLayout(new BorderLayout());
-        add(new JLabel("Параметры"), BorderLayout.NORTH);
+        add(new JLabel("Параметры", SwingConstants.CENTER), BorderLayout.NORTH);
         paramsPanel = new JPanel();
-
+        paramsPanel.setLayout(new BoxLayout(paramsPanel, BoxLayout.Y_AXIS));
+        add(paramsPanel);
+        controller.getModel().addPropertyChangeListener(this);
+        this.controller = controller;
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent arg0) {
-        // TODO Сделать заполнение по INIT
-        throw new UnsupportedOperationException("Unimplemented method 'propertyChange'");
+    public void propertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals(ModelEvents.INIT.toString())) {
+            Map<String, Double> params;
+            params = (Map<String, Double>) ((Map<String, Object>) event.getNewValue()).get("params"); // TODO это ужас,
+                                                                                                      // я знаю
+            initParams(params);
+            revalidate();
+        }
+    }
+
+    /**
+     * Возвращает панель с именем параметра и текстовым полем с привязанным
+     * контроллером на изменение параметра с этим именем.
+     * 
+     * @return
+     */
+    private JPanel getParamEntry(String name, Double startValue) {
+        JPanel paramEntry = new JPanel();
+        paramEntry.setLayout(new FlowLayout());
+        JLabel label = new JLabel(name);
+        JTextField tf = new JTextField(startValue.toString());
+        tf.addActionListener(event -> { // TODO сделать обработчик по tab
+            controller.setParam(name, Double.parseDouble(tf.getText())); // TODO сделать проверку на корректный ввод с диалоговым окном
+            System.out.println("По enter меняется модель");
+        });
+        paramEntry.add(label);
+        paramEntry.add(tf);
+        return paramEntry;
+    }
+
+    /**
+     * Перерисовывет панель с параметрами
+     */
+    private void initParams(Map<String, Double> params) {
+        SwingUtilities.invokeLater(() -> {
+            paramsPanel.removeAll();
+            for (Entry<String, Double> param : params.entrySet()) {
+                paramsPanel.add(getParamEntry(param.getKey(), param.getValue()));
+            }
+        });
     }
 }

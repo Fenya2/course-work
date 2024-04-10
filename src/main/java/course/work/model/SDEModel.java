@@ -4,8 +4,14 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+
+import course.work.model.sdesolvers.RK4Solver;
 
 /**
  * Заготовка для составления системы дифференциальных уравнений
@@ -30,15 +36,16 @@ public class SDEModel {
     /**
      * Объект, для реализации паттерна observer-observable
      */
-    protected PropertyChangeSupport pcs;
+    private PropertyChangeSupport pcs;
 
     /**
      * Инициализирует поля. Задает линейную функцию времени t
      */
     public SDEModel() {
-        p = new HashMap<String, Double>();
+        p = new LinkedHashMap<String, Double>();
         f = new ArrayList<Function>();
         sc = new ArrayList<Double>();
+        pcs = new PropertyChangeSupport(this);
         p.put("dt", 0.1);
         p.put("end", 10.0);
         f.add(new Function("t", (args) -> {
@@ -61,21 +68,41 @@ public class SDEModel {
     }
 
     /**
+     * Возвращает структуру модели для ее отрисовки.
+     */
+    private Map<String, Object> getInitData() {
+        Map<String, Object> ret = new HashMap<>();
+        ret.put("functions", getF());
+        ret.put("params", getP());
+        return ret;
+    }
+
+    /**
      * Уведомляет слушателей о создании модели и передает данные о ней
      * для отрисовки ее представления
      */
-    private void init() {
-        // TODO написать INIT модели
-        pcs.firePropertyChange(ModelEvents.INIT.toString(), null, null);
+    public void init() {
+        pcs.firePropertyChange(ModelEvents.INIT.toString(), null, getInitData());
     }
 
     /**
      * Уведомляет слушателей, что найдено решение системы с заданными
      * параметрами, передает их для отрисовки
      */
-    private void solution() {
-        // TODO написать SOLUTION_READY модели
-        pcs.firePropertyChange(ModelEvents.SOLUTION_READY.toString(), null, null);
+    private void onSolution(List<ImmutablePair<String, List<Double>>> solution) {
+        pcs.firePropertyChange(ModelEvents.SOLUTION_READY.toString(), null, solution);
+    }
+
+    /**
+     * Решает систему диффуров, по решении отправляет его слушателям.
+     */
+    public void solve() {
+        List<ImmutablePair<String, List<Double>>> solution = new ArrayList<ImmutablePair<String, List<Double>>>();
+        List<List<Double>> result = new RK4Solver().solve(this);
+        for (int i = 0; i < result.size(); i++) {
+            solution.add(new ImmutablePair<String, List<Double>>(f.get(i).getName(), result.get(i)));
+        }
+        onSolution(solution);
     }
 
     public Map<String, Double> getP() {

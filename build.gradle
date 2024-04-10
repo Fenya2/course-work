@@ -25,4 +25,5 @@ java {
 
 dependencies {
     implementation 'org.jfree:jfreechart:1.5.4'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
 }

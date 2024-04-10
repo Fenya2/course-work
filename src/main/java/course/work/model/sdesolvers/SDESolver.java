@@ -1,4 +1,4 @@
-package course.work.sdesolvers;
+package course.work.model.sdesolvers;
 
 import java.util.List;
 
