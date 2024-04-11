@@ -24,7 +24,7 @@ import java.util.Map.Entry;
  */
 public class ParamsPanel extends JPanel implements PropertyChangeListener {
     /**
-     * Панель, куда добавляются представления функций
+     * Панель, куда добавляются параметры модели
      */
     private JPanel paramsPanel; // TODO поменять на список
     private SDEController controller;
@@ -43,8 +43,7 @@ public class ParamsPanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent event) {
         if (event.getPropertyName().equals(ModelEvents.INIT.toString())) {
             Map<String, Double> params;
-            params = (Map<String, Double>) ((Map<String, Object>) event.getNewValue()).get("params"); // TODO это ужас,
-                                                                                                      // я знаю
+            params = (Map<String, Double>) ((Map<String, Object>) event.getNewValue()).get("params"); // TODO знаю, ужас
             initParams(params);
             revalidate();
         }
@@ -60,10 +59,9 @@ public class ParamsPanel extends JPanel implements PropertyChangeListener {
         JPanel paramEntry = new JPanel();
         paramEntry.setLayout(new FlowLayout());
         JLabel label = new JLabel(name);
-        JTextField tf = new JTextField(startValue.toString());
+        JTextField tf = new JTextField(startValue.toString(), 10);
         tf.addActionListener(event -> { // TODO сделать обработчик по tab
             controller.setParam(name, Double.parseDouble(tf.getText())); // TODO сделать проверку на корректный ввод с диалоговым окном
-            System.out.println("По enter меняется модель");
         });
         paramEntry.add(label);
         paramEntry.add(tf);

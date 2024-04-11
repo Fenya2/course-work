@@ -1,6 +1,5 @@
 package course.work.gui;
 
-import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -10,13 +9,10 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.DefaultXYDataset;
 
-import course.work.SirModel;
 import course.work.controller.SDEController;
 import course.work.model.ModelEvents;
-import course.work.model.sdesolvers.RK4Solver;
 
 /**
  * Панель, в которой отображаются графики заданной системы уравнений
@@ -25,7 +21,7 @@ public class PlotView extends ChartPanel implements PropertyChangeListener {
 
     public PlotView(SDEController controller) {
         super(new JFreeChart(
-                "default",
+                "Здесь буден нарисован график",
                 JFreeChart.DEFAULT_TITLE_FONT,
                 new XYPlot(),
                 false));
@@ -43,7 +39,6 @@ public class PlotView extends ChartPanel implements PropertyChangeListener {
                 data[0][j] = solution.get(0).right.get(j);
                 data[1][j] = solution.get(i).right.get(j);
             }
-            System.out.println(solution.get(i).left);
             dataset.addSeries(solution.get(i).left, data);
         }
 
