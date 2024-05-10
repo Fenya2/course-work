@@ -5,15 +5,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import course.work.SIRSModel;
+import course.work.RandModel;
+import course.work.SirModel;
 import course.work.controller.SDEController;
 import course.work.model.SDEModel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionListener;
-import java.io.File;
 
 /**
  * Главное окно всей программы
@@ -30,7 +29,7 @@ public class MainFrame extends JFrame {
         menuBar.add(createFileMenu());
         setJMenuBar(menuBar);
 
-        SDEModel model = new SIRSModel();
+        SDEModel model = new RandModel();
         controller = new SDEController(model);
 
         SidePane sidePane = new SidePane(controller);
