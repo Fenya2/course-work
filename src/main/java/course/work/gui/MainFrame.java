@@ -5,8 +5,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import course.work.RandModel;
-import course.work.SirModel;
+import course.work.RandModel2;
 import course.work.controller.SDEController;
 import course.work.model.SDEModel;
 
@@ -29,7 +28,7 @@ public class MainFrame extends JFrame {
         menuBar.add(createFileMenu());
         setJMenuBar(menuBar);
 
-        SDEModel model = new RandModel();
+        SDEModel model = new RandModel2();
         controller = new SDEController(model);
 
         SidePane sidePane = new SidePane(controller);

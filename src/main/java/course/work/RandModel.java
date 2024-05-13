@@ -114,6 +114,6 @@ public class RandModel extends SDEModel {
             diseaseOn = false;
             return 0;
         }
-        return Math.sin(Math.PI * diseaseT / diseasePeriod);
+        return diseaseAmplitude * Math.sin(Math.PI * diseaseT / diseasePeriod);
     }
 }

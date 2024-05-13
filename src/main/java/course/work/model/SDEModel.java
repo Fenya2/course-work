@@ -8,7 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.DoubleRange;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 
 import course.work.model.sdesolvers.RK4Solver;
 
@@ -31,6 +33,8 @@ public class SDEModel {
      * Начальные условия
      */
     protected List<Double> sc;
+
+    protected double[] pf;
 
     /**
      * Объект, для реализации паттерна observer-observable
@@ -101,6 +105,10 @@ public class SDEModel {
         for (int i = 0; i < result.size(); i++) {
             solution.add(new ImmutablePair<String, List<Double>>(f.get(i).getName(), result.get(i)));
         }
+        ArrayList<Double> arr = new ArrayList<>();
+        System.out.println(pf.length);
+        for(int i = 0; i < pf.length; i++) arr.add(pf[i]);
+        solution.add(new ImmutablePair<String, List<Double>>("splash", arr));
         onSolution(solution);
     }
 
